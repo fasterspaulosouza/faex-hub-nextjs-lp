@@ -1,26 +1,215 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES (variáveis CSS)
+   ───────────────────────────────────────────────────────────────────────────
+   O que são: variáveis definidas no CSS nativo com prefixo "--".
+   Por que HSL: o formato hsl(H S% L%) permite manipular opacidade facilmente
+   usando a sintaxe moderna: hsl(var(--primary) / 0.5)  → 50% de opacidade.
+
+   Design tokens: cada variável é um "token" do design system.
+   Centralizar as cores aqui significa que mudar --primary atualiza
+   automaticamente TODOS os elementos que a usam no projeto.
+═══════════════════════════════════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background:           220 20% 97%;
+  --foreground:           220 30% 10%;
+  --card:                 0 0% 100%;
+  --card-foreground:      220 30% 10%;
+  --primary:              220 80% 50%;   /* azul principal */
+  --primary-foreground:   0 0% 100%;
+  --secondary:            220 15% 92%;
+  --secondary-foreground: 220 30% 10%;
+  --muted:                220 15% 92%;
+  --muted-foreground:     220 10% 50%;
+  --accent:               15 90% 58%;   /* laranja de destaque */
+  --accent-foreground:    0 0% 100%;
+  --destructive:          0 84.2% 60.2%;
+  --border:               220 15% 88%;
+  --input:                220 15% 88%;
+  --ring:                 220 80% 50%;
+  --radius:               0.75rem;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAILWIND V4 — @theme (tokens estáticos)
+   ───────────────────────────────────────────────────────────────────────────
+   O @theme ensina ao Tailwind quais valores usar para gerar as classes utilitárias.
+   Ex: --color-primary → gera as classes `bg-primary`, `text-primary`, etc.
+
+   Por que valores estáticos (não var())?
+   Tailwind v4 precisa de valores resolvidos em build-time para gerar variantes
+   com modificador de opacidade como `bg-primary/50`. Se usarmos var() aqui,
+   o modificador não funciona. Por isso duplicamos os valores como hsl() estático.
+
+   @theme inline: usado para tokens de fonte porque eles referenciam variáveis
+   CSS criadas pelo Next.js em runtime (--font-inter, --font-space-grotesk).
+═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  --color-background:           hsl(220 20% 97%);
+  --color-foreground:           hsl(220 30% 10%);
+  --color-card:                 hsl(0 0% 100%);
+  --color-card-foreground:      hsl(220 30% 10%);
+  --color-primary:              hsl(220 80% 50%);
+  --color-primary-foreground:   hsl(0 0% 100%);
+  --color-secondary:            hsl(220 15% 92%);
+  --color-secondary-foreground: hsl(220 30% 10%);
+  --color-muted:                hsl(220 15% 92%);
+  --color-muted-foreground:     hsl(220 10% 50%);
+  --color-accent:               hsl(15 90% 58%);
+  --color-accent-foreground:    hsl(0 0% 100%);
+  --color-destructive:          hsl(0 84.2% 60.2%);
+  --color-border:               hsl(220 15% 88%);
+  --color-input:                hsl(220 15% 88%);
+  --color-ring:                 hsl(220 80% 50%);
+
+  /* Raios de borda derivados do token --radius */
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+
+  /* ── Animações registradas ──
+     Registrar aqui permite usar as classes `animate-fade-in`, etc. no Tailwind.
+     `forwards` = mantém o estado final após a animação terminar.           */
+  --animate-fade-in:  fade-in  0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.8s ease-out forwards;
+  --animate-float:    float    6s ease-in-out infinite;
+}
+
+/* ── Fonts (inline = permite var() de runtime do Next.js) ── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-body:    var(--font-inter), 'Inter', sans-serif;
+  --font-sans:    var(--font-inter), 'Inter', sans-serif;
+  --font-mono:    ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ═══════════════════════════════════════════════════════════════════════════
+   @utility container — Classe utilitária customizada
+   ───────────────────────────────────────────────────────────────────────────
+   O @utility define uma classe Tailwind customizada.
+   `margin-inline: auto` centraliza horizontalmente.
+   `max-width: 1400px` limita a largura para legibilidade em telas largas.
+═══════════════════════════════════════════════════════════════════════════ */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  max-width: 1400px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KEYFRAMES — Definições de animações CSS
+   ───────────────────────────────────────────────────────────────────────────
+   @keyframes define os "quadros-chave" de uma animação.
+   O browser interpola automaticamente os valores entre os quadros.
+
+   float:     sobe e desce suavemente — usado nos orbs decorativos do Hero.
+   fade-in:   aparece de baixo para cima com fade — entrada suave de elementos.
+   slide-up:  similar ao fade-in mas com deslocamento maior — mais dramático.
+═══════════════════════════════════════════════════════════════════════════ */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE RESET
+═══════════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  border-color: hsl(var(--border));
+}
+
+html {
+  background-color: hsl(var(--background));
+
+  /* scroll-behavior: smooth → faz o scroll da página ser animado nativamente
+     (sem JavaScript). Complementa a função scrollToSection do Header.       */
+  scroll-behavior: smooth;
+
+  /* scroll-padding-top: reserva espaço no topo ao navegar para âncoras (#id).
+     Sem isso, o header fixo cobriria o título da seção ao fazer scroll.     */
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body, 'Inter', sans-serif);
+
+  /* font-smoothing: suaviza a renderização das fontes no macOS/iOS.
+     `-webkit-` é prefixo para Safari; `-moz-` é para Firefox.              */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Títulos usam a fonte de display (Space Grotesk) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENT CLASSES — Classes de componente reutilizáveis
+   ───────────────────────────────────────────────────────────────────────────
+   Estas classes encapsulam padrões visuais recorrentes do projeto.
+   São usadas diretamente no JSX como className="hero-gradient", etc.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Gradiente principal — azul para roxo.
+   Usado como fundo do Hero e nos ícones de feature.                        */
+.hero-gradient {
+  background: linear-gradient(135deg, hsl(220 80% 50%), hsl(240 70% 40%), hsl(280 60% 45%));
+}
+
+/* Glass morphism — efeito de vidro fosco.
+   Combina: fundo semi-transparente + desfoque de fundo (backdrop-filter).
+   backdrop-filter: blur() desfoca tudo que está ATRÁS do elemento.
+   -webkit- é necessário para Safari, que ainda exige o prefixo.
+   Resultado visual: painel translúcido com profundidade, como vidro.       */
+.glass-card {
+  background-color: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid hsl(var(--border) / 0.5);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Texto com gradiente — truque clássico de CSS:
+   1. background-image: define o gradiente como plano de fundo
+   2. background-clip: text → recorta o fundo no formato das letras
+   3. color: transparent → torna a cor do texto transparente, revelando o fundo
+   Resultado: letras preenchidas com o gradiente.                           */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+}
+
+/* Animação flutuante — ciclo infinito de 6s de subir/descer              */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Igual ao floating mas com 2s de delay — cria movimento assíncrono       */
+.floating-delay {
+  animation: float 6s ease-in-out infinite 2s;
+}
+
+/* Brilho/glow — sombra colorida e difusa ao redor do elemento             */
+.glow-primary {
+  box-shadow: 0 0 40px hsl(var(--primary) / 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 40px hsl(var(--accent) / 0.3);
 }
