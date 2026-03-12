@@ -1,7 +1,12 @@
-import Image from "next/image";
+import Footer from "@/components/landing/Footer";
+import Header from "@/components/landing/Header";
 
 export default function Home() {
   return (
-    <h1>Olá Mundo</h1>
+    <main>
+      <Header />
+
+      <Footer />
+    </main>
   );
 }
