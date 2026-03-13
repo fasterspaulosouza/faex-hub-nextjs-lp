@@ -1,5 +1,6 @@
 "use client";
 
+import { navLinks } from "@/lib/data";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function Header() {
@@ -37,6 +38,22 @@ export default function Header() {
         </a>
 
         {/* Navegação Desktop */}
+        <nav className="hidden md:flex item-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              key={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-color duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="hidden md:flex item-center p-1">
+          <button>Acessar Plataforma</button>
+        </div>
       </div>
     </header>
   );
