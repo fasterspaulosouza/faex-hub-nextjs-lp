@@ -20,7 +20,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "FAEX HUB - A rede social acadêmica",
-  description: "FAEX HUB a rede social que conecta os alunos para trocar experiências",
+  description:
+    "FAEX HUB a rede social que conecta os alunos para trocar experiências",
 };
 
 export default function RootLayout({
