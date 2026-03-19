@@ -1,5 +1,6 @@
 "use client";
 
+import { webFeatures } from "@/lib/data";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Monitor } from "lucide-react";
 import Image from "next/image";
@@ -62,22 +63,63 @@ export default function WebSection() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7 }}
             >
-              <div>
-                <Monitor />
-                <span>Sistema Web</span>
+              <div
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-6"
+                style={{
+                  background: "hsl(var(--primary) / 0.1)",
+                  border: "1px solid hsl(var(--primary) / 0.2)",
+                }}
+              >
+                <Monitor className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">
+                  Sistema Web
+                </span>
               </div>
 
-              <h2>
-                Experiência completa <br /> no <span>navegador</span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-tight">
+                Experiência completa <br /> no{" "}
+                <span className="text-gradient">navegador</span>
               </h2>
 
-              <p>
+              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
                 No desktop, o faexHUB oferece uma experiência robusta com
                 dashboard, gestão de turmas e relatórios para professores e
                 alunos.
               </p>
             </motion.div>
-            <div></div>
+
+            <div className="space-y-6">
+              {webFeatures.map((wfeature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.15,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                  className="flex items-center gap-4"
+                >
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "hsl(var(--accent) /0.1" }}
+                  >
+                    <wfeature.icon className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-semibold text-foreground mb-1">
+                      {wfeature.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {wfeature.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
