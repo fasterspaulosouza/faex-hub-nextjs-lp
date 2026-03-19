@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../ui/Button";
+import { heroStats } from "@/lib/data";
 
 export default function HeroBanner() {
   const ref = useRef<HTMLElement>(null);
@@ -86,7 +87,7 @@ export default function HeroBanner() {
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground leading-tight mb-6"
+            className="text-4xl md:text-6xl font-display font-bold text-primary-foreground leading-tight mb-6"
           >
             Conecte-se. <br />
             <span className="text-accent">Compartilhe.</span> Aprenda.
@@ -120,8 +121,51 @@ export default function HeroBanner() {
               Saiba Mais
             </Button>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto"
+          >
+            {heroStats.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.7 + i * 0.15,
+                  type: "spring",
+                  stiffness: 200,
+                }}
+                className="text-center"
+              >
+                <stat.icon className="w-5 h-5 text-accent mx-auto mb-2" />
+                <p className="text-2xl font-display font-bold text-primary-foreground">
+                  {stat.value}
+                </p>
+                <p className="text-xs text-primary-foreground/60">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </motion.div>
+
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        <svg
+          viewBox="0 0 1440 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+            fill="hsl(var(--background))"
+          />
+        </svg>
+      </div>
     </section>
   );
 }
