@@ -95,7 +95,7 @@ export default function AppSection() {
             className="flex justify-center"
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, filter: "blur(20ox)" }}
+              initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
               whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{
