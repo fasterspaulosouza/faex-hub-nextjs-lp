@@ -2,6 +2,7 @@ import Footer from "@/components/landing/Footer";
 import HeroBanner from "@/components/landing/HeroBanner";
 import Header from "@/components/landing/Header";
 import AppSection from "@/components/landing/AppSection";
+import WebSection from "@/components/landing/WebSection";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Header />
       <HeroBanner />
       <AppSection />
+      <WebSection />
       <Footer />
     </main>
   );
