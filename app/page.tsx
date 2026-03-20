@@ -5,6 +5,7 @@ import AppSection from "@/components/landing/AppSection";
 import WebSection from "@/components/landing/WebSection";
 import FeaturesSection from "@/components/landing/FeaturesSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import FaqSection from "@/components/landing/FaqSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <WebSection />
       <FeaturesSection />
       <TestimonialsSection />
+      <FaqSection />
       <Footer />
     </main>
   );
