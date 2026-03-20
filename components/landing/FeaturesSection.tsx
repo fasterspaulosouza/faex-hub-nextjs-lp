@@ -66,11 +66,21 @@ export default function FeaturesSection() {
               }}
               className="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 cursor-default"
             >
-              <motion.div>
-                <plataform.icon />
+              <motion.div
+                whileHover={{
+                  rotate: [0, -10, 10, 0],
+                  transition: { duration: 0.5 },
+                }}
+                className="w-12 h-12 rounded-xl hero-gradient flex items-center justify-center mb-4"
+              >
+                <plataform.icon className="w-6 h-6 text-primary-foreground" />
               </motion.div>
-              <h3>{plataform.title}</h3>
-              <p>{plataform.desc}</p>
+              <h3 className="font-display font-semibold text-foreground text-lg mb-2">
+                {plataform.title}
+              </h3>
+              <p className="text-sm- text-muted-foreground leading-relaxed">
+                {plataform.desc}
+              </p>
             </motion.div>
           ))}
         </div>
