@@ -1,21 +1,24 @@
 "use client";
 
-import { useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import SubHeader from "../SubHeader";
 
 export default function TestimonialsSection() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const headingY = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
   return (
-    <section ref={ref}>
-      <div></div>
+    <section
+      ref={ref}
+      id="depoimentos"
+      className="py-24 overflow-hidden"
+      style={{ background: "hsl(var(--muted) / 0.3)" }}
+    >
+      <SubHeader
+        title="Quem usa,"
+        title2="recomenda"
+        desc="Descubra o que alunos e professores estão dizendo sobre sua
+            experiência com o FAEX HUB."
+      />
     </section>
   );
 }
